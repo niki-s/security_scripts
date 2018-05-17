@@ -1,7 +1,7 @@
 #!/bin/bash
 # working with stuff from ~line 1804 in discover.sh to get fancy nmap stuff from already run scans
 
-name="bora_fast_tcp"
+name="bora_fast_udp"
 echo $name
 
 # first, this only works with files named nmap.nmap in discover.sh, so there's your first problem
@@ -12,3 +12,20 @@ egrep -v '(0000:|0010:|0020:|0030:|0040:|0050:|0060:|0070:|0080:|0090:|00a0:|00b
 grep 'open' $name.txt | grep -v 'WARNING' | awk '{print $1}' | sort -un > ports.txt
 grep 'tcp' ports.txt | cut -d '/' -f1 > ports-tcp.txt
 grep 'udp' ports.txt | cut -d '/' -f1 > ports-udp.txt
+
+grep 'open' $name.txt | grep -v 'really open' | awk '{for (i=4;i<=NF;i++) {printf "%s%s",sep, $i;sep=" "}; printf "\n"}' | sed 's/^ //' | sort -u | sed '/^$/d' > banners.txt
+
+for i in $(cat ports-tcp.txt); do
+     TCPPORT=$i
+     cat $name.gnmap | grep " $i/open/tcp//http/\| $i/open/tcp//http-alt/\| $i/open/tcp//http-proxy/\| $i/open/tcp//appserv-http/" |
+     sed -e 's/Host: //g' -e 's/ (.*//g' -e 's.^.http://.g' -e "s/$/:$i/g" | $sip >> tmp
+
+#      cat $name.gnmap | grep " $i/open/tcp//https/\| $i/open/tcp//https-alt/\| $i/open/tcp//ssl|giop/\| $i/open/tcp//ssl|http/\| $i/open/tcp//ssl|unknown/" |
+#      sed -e 's/Host: //g' -e 's/ (.*//g' -e 's.^.https://.g' -e "s/$/:$i/g" | $sip >> tmp2
+done
+
+# sed 's/http:\/\///g' tmp > http.txt
+# sed 's/https:\/\///g' tmp2 > https.txt
+
+# Remove all empty files
+find . -type f -empty -exec rm {} +
