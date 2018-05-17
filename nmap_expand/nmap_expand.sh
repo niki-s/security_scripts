@@ -1,7 +1,7 @@
 #!/bin/bash
 # working with stuff from ~line 1804 in discover.sh to get fancy nmap stuff from already run scans
 
-name="bora_fast_udp"
+name=$1
 echo $name
 
 # first, this only works with files named nmap.nmap in discover.sh, so there's your first problem
