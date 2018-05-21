@@ -12,4 +12,4 @@ nmap_expand: take the results of a previously run nmap scan and sort results int
 		
 	output: hosts separated by port and services, list of open ports, more to come
 	
-	$ ./nmap_expand.sh <name>
+	$ ./nmap_expand.sh (-s -h)
