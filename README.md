@@ -12,4 +12,8 @@ nmap_expand: take the results of a previously run nmap scan and sort results int
 		
 	output: hosts separated by port and services, list of open ports, more to come
 	
-	$ ./nmap_expand.sh (-s -h)
+	Example:
+	$ ./nmap_expand.sh (-s/--scripts -h/--help)
+	Which nmap scan you would like to expand (path/to/file/<name minus extension>):
+	> /root/Documents/savedScans/this_fast_tcp_scan
+	
