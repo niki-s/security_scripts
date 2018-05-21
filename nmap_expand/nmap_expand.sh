@@ -1,9 +1,38 @@
 #!/bin/bash
 # working with stuff from ~line 1804 in discover.sh to get fancy nmap stuff from already run scans
 
-name=$1
-echo $name
+# defined for functions to use later
 sip='sort -n -u -t . -k 1,1 -k 2,2 -k 3,3 -k 4,4'
+
+# check for command line arguments:
+#  accepts -s or --scripts to run more nmap scripts
+POSITIONAL=()  # does something with positional parameters
+
+while [[ $# -gt 0 ]] # loop through each parameter
+do
+key="$1"
+
+# leaving in in case format in case I want to add more parameters later (ha! get it...in case...)
+case $key in
+    -s|--scripts)
+    runScripts=true
+    shift # past argument
+    ;;
+    -h|--help)
+    echo "Help:"
+    echo "	After running this script it will prompt for a saved nmap file name. Make sure that the <name>.nmap and <name>.gnmap are in the same directory"
+    echo "	Additional namap scripts will explore the already found ports and services if this script is run with -s or --scripts as a parameter"
+    exit 1
+    shift # past argument
+    ;;
+esac
+done
+
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+read -e -p  "Specify which nmap scan you would like to expand: " name
+#name=$1
+echo "Expanding $name..."
 
 clean_and_sort(){
 # first, this only works with files named nmap.nmap in discover.sh, so there's your first problem
@@ -875,4 +904,8 @@ done
 clean_and_sort
 f_ports
 # dont run yet, not sure what hosts to test on
-#f_scripts
+if [ "$runScripts" = true ] ; then
+    echo '	Running additional nmap scripts! (but not actually)'
+    #f_scripts
+fi
+
