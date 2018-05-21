@@ -20,8 +20,9 @@ case $key in
     ;;
     -h|--help)
     echo "Help:"
-    echo "	After running this script it will prompt for a saved nmap file name. Make sure that the <name>.nmap and <name>.gnmap are in the same directory"
-    echo "	Additional namap scripts will explore the already found ports and services if this script is run with -s or --scripts as a parameter"
+    echo "	This script will prompt for the path to a saved nmap scan, make sure that the <name>.nmap and <name>.gnmap are in the same directory, share the same name, and that an absolute path is provided"
+    echo "	-s --scripts: Run additional nmap scripts to explore the found ports and services"
+    echo "	-h --help: display this help message again, if you want"
     exit 1
     shift # past argument
     ;;
