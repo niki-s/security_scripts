@@ -30,7 +30,7 @@ done
 
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-read -e -p  "Which nmap scan you would like to expand: " name
+read -e -p  "Which nmap scan you would like to expand (path/to/file/<name minus extension>): " name
 
 # make a directory to store the resuls in
 directory="${name}_expanded"
