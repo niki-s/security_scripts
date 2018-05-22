@@ -48,7 +48,10 @@ fi
 # make a directory to store the resuls in
 directory="${name}_expanded"
 echo "Placing expansion results in $directory"
-mkdir "$directory"
+if ! [[ -e $directory ]]; then
+	mkdir "$directory"
+fi
+
 
 echo "Expanding $name..."
 
@@ -74,13 +77,13 @@ done
 # if the temp files get created seprate them into http and https files then delete them
 if [[ -e tmp ]]; then
 	#sed 's/http:\/\///g' tmp > $directory/http.txt
-	mv tmp > $directory/http.txt
-	rm tmp
+	mv tmp $directory/http.txt
+	#rm tmp
 fi
 if [[ -e tmp2 ]]; then
 	#sed 's/https:\/\///g' tmp2 > $directory/https.txt
-	mv tmp2 > $directory/https.txt
-	rm tmp2
+	mv tmp2 $directory/https.txt
+	#rm tmp2
 fi
 
 # Remove all empty files
@@ -933,3 +936,6 @@ if [ "$runScripts" = true ] ; then
     #f_scripts
 fi
 
+if [[ -e tmp* ]]; then
+	rm tmp*
+fi
