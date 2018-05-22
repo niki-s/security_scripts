@@ -74,12 +74,12 @@ done
 # if the temp files get created seprate them into http and https files then delete them
 if [[ -e tmp ]]; then
 	#sed 's/http:\/\///g' tmp > $directory/http.txt
-	sed tmp > $directory/http.txt
+	mv tmp > $directory/http.txt
 	rm tmp
 fi
 if [[ -e tmp2 ]]; then
 	#sed 's/https:\/\///g' tmp2 > $directory/https.txt
-	sed tmp2 > $directory/https.txt
+	mv tmp2 > $directory/https.txt
 	rm tmp2
 fi
 
