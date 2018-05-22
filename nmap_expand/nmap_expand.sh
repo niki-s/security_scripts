@@ -33,6 +33,18 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 
 read -e -p  "Which nmap scan you would like to expand (/path/to/file/<name minus extension>): " name
 
+# check if file names exist
+if ! [[ -e $name.nmap ]]; then
+	echo "ERROR: There is no file $name.nmap"
+	echo "Please make sure you have specified the filename and/or location correctly"
+	exit 2
+fi
+if ! [[ -e $name.gnmap ]]; then
+	echo "ERROR: There is no file $name.gnmap"
+	echo "Please make sure you have specified the filename and/or location correctly"
+	exit 2
+fi
+
 # make a directory to store the resuls in
 directory="${name}_expanded"
 echo "Placing expansion results in $directory"
@@ -61,11 +73,13 @@ done
 
 # if the temp files get created seprate them into http and https files then delete them
 if [[ -e tmp ]]; then
-	sed 's/http:\/\///g' tmp > $directory/http.txt
+	#sed 's/http:\/\///g' tmp > $directory/http.txt
+	sed tmp > $directory/http.txt
 	rm tmp
 fi
 if [[ -e tmp2 ]]; then
-	sed 's/https:\/\///g' tmp2 > $directory/https.txt
+	#sed 's/https:\/\///g' tmp2 > $directory/https.txt
+	sed tmp2 > $directory/https.txt
 	rm tmp2
 fi
 
